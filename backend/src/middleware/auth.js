@@ -8,11 +8,17 @@ const auth = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token.replace("Bearer ", ""), //to remove Bearer from token
+      process.env.JWT_SECRET
+    );
+
     req.user = decoded;
     next();
-  } catch (e) {
-    res.status(401).json({ message: "Token is not valid" });
+  } catch (error) {
+    res
+      .status(401)
+      .json({ message: "Token is not valid", error: error.message });
   }
 };
 

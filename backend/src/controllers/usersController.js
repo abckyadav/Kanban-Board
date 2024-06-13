@@ -4,11 +4,9 @@ import User from "../models/userModel.js";
 
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
-  console.log("name:", name);
 
   try {
     const existingUser = await User.findOne({ email });
-    console.log("existingUser:", existingUser);
 
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
@@ -50,7 +48,6 @@ export const login = async (req, res) => {
       expiresIn: "1h",
     });
 
-  
     return res.status(200).json({
       token,
       user: { _id: user._id, name: user.name, email: user.email },

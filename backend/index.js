@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import ConnectMongoDB from "./src/config/db.js";
 import dotenv from "dotenv";
-import UserRoutes from "./src/routes/route.js";
+import Routes from "./src/routes/route.js";
 
 dotenv.config();
 
@@ -12,9 +12,8 @@ const PORT = 8080;
 app.use(cors());
 app.use(express.json());
 
-
 //routes
-app.use("/api/", UserRoutes);
+app.use("/api/", Routes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
