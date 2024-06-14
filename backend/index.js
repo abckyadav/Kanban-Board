@@ -13,7 +13,7 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.use("/", (req, res) => {
+app.use("/kanban", (req, res) => {
   res.status(200).json({ message: "Welcome to Kanban Board API" });
 });
 app.use("/api", Routes);

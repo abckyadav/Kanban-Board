@@ -21,8 +21,8 @@ export const register = async (req, res) => {
     await newUser.save();
 
     return res
-      .status(201)
-      .json({ message: "User registered successfully", user: { name, email } });
+      .status(200)
+      .json({ message: "Registration Successful", user: { name, email } });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
@@ -35,7 +35,9 @@ export const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "User does not exist" });
+      return res
+        .status(400)
+        .json({ message: "User does not exist, Please register" });
     }
 
     const isPasswordMatch = await bcrypt.compare(password, user.password);

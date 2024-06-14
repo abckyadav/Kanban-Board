@@ -1,12 +1,41 @@
+import { useState } from "react";
 import "./App.css";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Dashboard from "./components/Dashboard";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
+  const [user, setUser] = useState(null);
+
+  const handleLogout = () => {
+    setUser(null);
+    localStorage.removeItem("token");
+  };
+
   return (
-    <>
-      <h1 className="text-3xl text-center font-bold underline">
-        Welcome to Kanban Board
-      </h1>
-    </>
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Navbar user={user} handleLogout={handleLogout} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              user ? <Dashboard user={user} /> : <Navigate to="/login" />
+            }
+          />
+          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
