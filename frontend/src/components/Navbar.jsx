@@ -31,7 +31,10 @@ const Navbar = ({ user, handleLogout }) => {
           {showDropdown && (
             <div className="absolute right-4 top-12 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
               <button
-                onClick={handleLogout}
+                onClick={() => {
+                  handleLogout();
+                  setShowDropdown(false);
+                }}
                 className="block px-4 py-2 text-blue-600 hover:bg-blue-100 w-full text-left"
               >
                 Logout
