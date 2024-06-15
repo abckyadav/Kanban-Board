@@ -52,12 +52,10 @@ const Card = ({
         onDragEnd={() => handleDragEnd(card?._id, boardId)}
         onDragEnter={() => handleDragEnter(card?._id, boardId)}
         onClick={() => setShowModal(true)}
-        className="p-2 rounded-md flex flex-col gap-2 bg-white group"
+        className="p-2 py-4 rounded-md flex flex-col gap-2 bg-white group hover:cursor-pointer"
       >
         <div className="flex gap-2 items-center ">
-          <div className="flex-1 flex gap-2 ">
-            <Chip text="normal" color="lightgreen" />
-          </div>
+          <div className="font-bold">{card?.name}</div>
           <div className="relative" onClick={handleDropdownClick}>
             <EllipsisHorizontalIcon className="w-6 h-6 hover:cursor-pointer  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -76,7 +74,6 @@ const Card = ({
           </div>
         </div>
 
-        <div className="font-bold">{card?.name}</div>
         <div className="flex justify-between items-center text-sm">
           <div className="flex justify-between items-center gap-1">
             <ClockIcon className="w-4 h-4" />

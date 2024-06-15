@@ -113,7 +113,7 @@ const CardInfo = (props) => {
                         }
                         className="text-md text-gray-500 border p-2 rounded"
                       />
-                      <div className="flex items-center gap-7">
+                      <div className="flex items-center gap-10">
                         <p className="text-md text-gray-500">Priority</p>
                         <select
                           value={editedTask.priority}
@@ -123,13 +123,13 @@ const CardInfo = (props) => {
                               priority: e.target.value,
                             })
                           }
-                          className="border p-2 rounded"
+                          className="border p-2 rounded shadow-md"
                         >
                           <option value="normal">Normal</option>
                           <option value="urgent">Urgent</option>
                         </select>
                       </div>
-                      <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-6">
                         <p className="text-md text-gray-500">Due Date</p>
                         <input
                           type="date"
@@ -176,7 +176,7 @@ const CardInfo = (props) => {
                           </p>
                         </div>
 
-                        <div className="flex items-center gap-7">
+                        <div className="flex items-center justify-between">
                           <p className="text-md text-gray-500">Priority</p>
                           <Chip
                             text={task.priority}
@@ -187,7 +187,7 @@ const CardInfo = (props) => {
                             }
                           />
                         </div>
-                        <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center justify-between">
                           <p className="text-md text-gray-500">Due Date</p>
                           <p className="text-md text-gray-500">
                             {formatDate(task.dueDate)}
@@ -216,7 +216,7 @@ const CardInfo = (props) => {
 
           <div className="cardinfo_box_body w-full">
             {creatingNewTask ? (
-              <div className="cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
+              <div className="cardinfo_box_list flex flex-col gap-4 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
                 <input
                   type="text"
                   name="title"
@@ -232,19 +232,19 @@ const CardInfo = (props) => {
                   className="text-md text-gray-500 border p-2 rounded"
                   placeholder="Task Description"
                 />
-                <div className="flex items-center gap-7">
+                <div className="flex items-center gap-10">
                   <p className="text-md text-gray-500">Priority</p>
                   <select
                     name="priority"
                     value={newTask.priority}
                     onChange={handleNewTaskChange}
-                    className="border p-2 rounded"
+                    className="border p-2 rounded shadow-md"
                   >
                     <option value="normal">Normal</option>
                     <option value="urgent">Urgent</option>
                   </select>
                 </div>
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-6">
                   <p className="text-md text-gray-500">Due Date</p>
                   <input
                     type="date"
