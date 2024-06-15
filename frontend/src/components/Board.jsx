@@ -15,6 +15,10 @@ const Board = ({
 }) => {
   const [showDropDown, setShowDropdown] = useState(false);
 
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
   const handleDropdownClick = (event) => {
     event.stopPropagation(); // Prevent the click event from propagating to the document
     setShowDropdown(!showDropDown); // Toggle the dropdown
@@ -23,7 +27,11 @@ const Board = ({
   return (
     <>
       {/* board */}
-      <div className="min-w-[25%] max-h-full flex flex-col gap-4">
+      <div
+        onDragOver={handleDragOver}
+        onDrop={() => handleDragEnter(null, board._id)}
+        className="min-w-[25%] max-h-full flex flex-col gap-4"
+      >
         <div className="flex justify-between items-center">
           <p className="flex-1 font-bold">
             {board?.name} -{" "}
@@ -54,7 +62,7 @@ const Board = ({
                 <Card
                   key={card._id}
                   card={card}
-                  board={board}
+                  boardId={board._id}
                   deleteList={deleteList}
                   handleDragEnd={handleDragEnd}
                   handleDragEnter={handleDragEnter}

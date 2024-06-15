@@ -25,7 +25,7 @@ const Dashboard = () => {
       });
       setBoards(res.data.boards);
       setLoading(false);
-      console.log("boards", boards, message);
+      console.log("boards", boards);
     } catch (error) {
       setMessage(error.message);
       setLoading(false);
@@ -150,7 +150,7 @@ const Dashboard = () => {
           },
         }
       );
-      console.log("Card moved response:", res);
+      console.log("Card moved response:", res.data);
       getBoards();
       setLoading(false);
     } catch (error) {
@@ -161,34 +161,56 @@ const Dashboard = () => {
 
   //source
   const handleDragEnd = (cardId, boardId) => {
-    console.log("Drag End: ", cardId, boardId);
+    // console.log("Drag End initiated - cardId:", cardId, "boardId:", boardId);
     let sourceBoardIndex, sourceCardIndex, targetBoardIndex, targetCardIndex;
 
-    sourceBoardIndex = boards?.findIndex((board) => board._id === boardId);
-    if (sourceBoardIndex < 0) return;
+    sourceBoardIndex = boards.findIndex((board) => board._id === boardId);
 
-    sourceCardIndex = boards[sourceBoardIndex].cards?.findIndex(
-      (card) => card._id === cardId
+    if (sourceBoardIndex < 0) {
+      console.log("Source board not found");
+      return;
+    }
+
+    const sourceBoard = boards[sourceBoardIndex];
+
+    if (!sourceBoard.lists) {
+      console.log("Source board does not have any cards");
+      return;
+    }
+
+    sourceCardIndex = sourceBoard.lists.findIndex(
+      (list) => list._id === cardId
     );
-    console.log("sourceCardIndex:", sourceCardIndex);
 
-    if (sourceCardIndex < 0) return;
+    if (sourceCardIndex < 0) {
+      console.log("Source card not found in the specified board");
+      return;
+    }
 
-    targetBoardIndex = boards?.findIndex(
+    targetBoardIndex = boards.findIndex(
       (board) => board._id === target.boardId
     );
 
-    if (targetBoardIndex < 0) return;
+    if (targetBoardIndex < 0) {
+      console.error("Target board not found");
+      return;
+    }
 
-    targetCardIndex = boards[targetBoardIndex].cards?.findIndex(
-      (card) => card._id === target.cardId
+    const targetBoard = boards[targetBoardIndex];
+
+    if (!targetBoard.lists) {
+      console.error("Target board does not have any cards");
+      return;
+    }
+
+    targetCardIndex = targetBoard.lists.findIndex(
+      (list) => list._id === target.cardId
     );
-    if (targetCardIndex < 0) return;
 
     const tempBoards = [...boards];
-    const sourceCard = tempBoards[sourceBoardIndex].cards[sourceCardIndex];
-    tempBoards[sourceBoardIndex].cards.splice(sourceCardIndex, 1);
-    tempBoards[targetBoardIndex].cards.splice(targetCardIndex, 0, sourceCard);
+    const sourceCard = tempBoards[sourceBoardIndex].lists[sourceCardIndex];
+    tempBoards[sourceBoardIndex].lists.splice(sourceCardIndex, 1);
+    tempBoards[targetBoardIndex].lists.splice(targetCardIndex, 0, sourceCard);
     setBoards(tempBoards);
 
     setTarget({
@@ -196,6 +218,7 @@ const Dashboard = () => {
       boardId: "",
     });
 
+    console.log("Updating card position in the backend");
     updateCardPosition(cardId, boardId, target.boardId);
   };
 

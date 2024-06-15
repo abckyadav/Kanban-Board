@@ -14,10 +14,10 @@ export const dragAndDropController = async (req, res) => {
       return res.status(404).json({ message: "Board or Card not found" });
     }
 
-    sourceBoard.cards.pull(cardId);
+    sourceBoard.lists.pull(cardId);
     await sourceBoard.save();
 
-    targetBoard.cards.push(cardId);
+    targetBoard.lists.push(cardId);
     await targetBoard.save();
 
     res.status(200).json({ message: "Card moved successfully" });

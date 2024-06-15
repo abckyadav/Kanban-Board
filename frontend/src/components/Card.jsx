@@ -8,7 +8,13 @@ import {
 } from "@heroicons/react/24/outline";
 import Dropdown from "./Dropdown";
 
-const Card = ({ board, card, deleteList, handleDragEnd, handleDragEnter }) => {
+const Card = ({
+  boardId,
+  card,
+  deleteList,
+  handleDragEnd,
+  handleDragEnter,
+}) => {
   const [showDropDown, setShowDropdown] = useState(false);
 
   const handleDropdownClick = (event) => {
@@ -25,8 +31,8 @@ const Card = ({ board, card, deleteList, handleDragEnd, handleDragEnter }) => {
   return (
     <div
       draggable
-      onDragEnd={() => handleDragEnd(card?._id, board?._id)}
-      onDragEnter={() => handleDragEnter(card?._id, board?._id)}
+      onDragEnd={() => handleDragEnd(card?._id, boardId)}
+      onDragEnter={() => handleDragEnter(card?._id, boardId)}
       className="p-2 rounded-md flex flex-col gap-2 bg-white group"
     >
       <div className="flex gap-2 items-center ">

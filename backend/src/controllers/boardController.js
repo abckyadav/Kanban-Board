@@ -26,7 +26,6 @@ export const getBoard = async (req, res) => {
         path: "tasks",
       },
     });
-    console.log("boards:", boards);
     return res.status(200).json({ message: "Success", boards: boards });
   } catch (error) {
     return res.status(500).json({ message: error.message });
