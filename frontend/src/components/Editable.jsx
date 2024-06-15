@@ -4,7 +4,7 @@ import { useState } from "react";
 
 const Editable = (props) => {
   const [showEdit, setShowEdit] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(props.value || "");
 
   return (
     <div className="editable">
@@ -37,7 +37,7 @@ const Editable = (props) => {
               className="h-4 w-4 hover:cursor-pointer hover:scale-125"
               onClick={() => {
                 setShowEdit(false);
-                setInputValue("");
+                // setInputValue("");
               }}
             />
           </div>

@@ -99,11 +99,103 @@ const Dashboard = () => {
     }
   };
 
+  const updateList = async (listId, name) => {
+    try {
+      setLoading(true);
+      const res = await axios.put(
+        `http://localhost:8080/api/${listId}/lists`,
+        { name }, // Data to be sent in the body of the request
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      getBoards();
+      setLoading(false);
+      setMessage(res?.message);
+      console.log("boards", boards);
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false);
+    }
+  };
   const deleteList = async (listId) => {
     try {
       setLoading(true);
       const res = await axios.delete(
         `http://localhost:8080/api/${listId}/lists`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      getBoards();
+      setLoading(false);
+      setMessage(res?.message);
+      console.log("boards", boards);
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false);
+    }
+  };
+  const deleteTask = async (taskId) => {
+    console.log("taskId:", taskId);
+    try {
+      setLoading(true);
+      const res = await axios.delete(
+        `http://localhost:8080/api/${taskId}/tasks`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      getBoards();
+      setLoading(false);
+      setMessage(res?.message);
+      console.log("boards", boards);
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false);
+    }
+  };
+
+  const updateTask = async (taskId, updatedTask) => {
+    try {
+      setLoading(true);
+      const res = await axios.put(
+        `http://localhost:8080/api/${taskId}/tasks`,
+        updatedTask,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      getBoards();
+      setLoading(false);
+      setMessage(res?.message);
+      console.log("Task updated:", res.data.task);
+    } catch (error) {
+      setMessage(error.message);
+      setLoading(false);
+    }
+  };
+
+  const addTask = async (listId, task) => {
+    console.log("task:", task);
+    console.log("listId:", listId);
+    try {
+      setLoading(true);
+      const res = await axios.post(
+        `http://localhost:8080/api/${listId}/tasks`,
+        task,
         {
           headers: {
             "Content-Type": "application/json",
@@ -246,8 +338,12 @@ const Dashboard = () => {
                   <Board
                     key={board._id}
                     board={board}
-                    deleteBoard={deleteBoard}
                     addList={addList}
+                    addTask={addTask}
+                    updateList={updateList}
+                    updateTask={updateTask}
+                    deleteBoard={deleteBoard}
+                    deleteTask={deleteTask}
                     deleteList={deleteList}
                     handleDragEnd={handleDragEnd}
                     handleDragEnter={handleDragEnter}

@@ -34,7 +34,6 @@ export const createList = async (req, res) => {
 };
 
 // Delete a list
-
 export const deleteList = async (req, res) => {
   try {
     const list = await List.findById(req.params.listId);
@@ -52,6 +51,28 @@ export const deleteList = async (req, res) => {
     return res
       .status(200)
       .json({ message: "List and associated tasks deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
+// Update a list
+export const updateList = async (req, res) => {
+  const { name } = req.body;
+
+  try {
+    const list = await List.findById(req.params.listId);
+
+    if (!list) {
+      return res.status(404).json({ message: "List not found" });
+    }
+
+    list.name = name;
+    await list.save();
+
+    return res
+      .status(200)
+      .json({ message: "List name updated successfully", list });
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }

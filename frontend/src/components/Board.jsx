@@ -9,6 +9,10 @@ const Board = ({
   board,
   deleteBoard,
   addList,
+  addTask,
+  updateList,
+  updateTask,
+  deleteTask,
   deleteList,
   handleDragEnter,
   handleDragEnd,
@@ -63,6 +67,10 @@ const Board = ({
                   key={card._id}
                   card={card}
                   boardId={board._id}
+                  addTask={addTask}
+                  updateList={updateList}
+                  updateTask={updateTask}
+                  deleteTask={deleteTask}
                   deleteList={deleteList}
                   handleDragEnd={handleDragEnd}
                   handleDragEnter={handleDragEnter}
