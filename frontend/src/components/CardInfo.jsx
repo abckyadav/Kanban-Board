@@ -11,7 +11,7 @@ import Chip from "./Chip";
 import { useState } from "react";
 
 const CardInfo = (props) => {
-  const { name, tasks } = props.card;
+  const { tasks } = props.card;
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editedTask, setEditedTask] = useState({});
   const [creatingNewTask, setCreatingNewTask] = useState(false);
@@ -91,8 +91,12 @@ const CardInfo = (props) => {
               <div key={task._id}>
                 {editingTaskId === task._id ? (
                   <div className="cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
-                    <div className="flex flex-col gap-4">
+                    <form
+                      className="flex flex-col gap-4"
+                      onSubmit={() => handleSaveClick(task._id)}
+                    >
                       <input
+                        required
                         type="text"
                         value={editedTask.title}
                         onChange={(e) =>
@@ -145,7 +149,7 @@ const CardInfo = (props) => {
                       </div>
                       <div className="flex justify-end gap-4">
                         <button
-                          onClick={() => handleSaveClick(task._id)}
+                          type="submit"
                           className="bg-blue-500 text-white px-4 py-2   hover:bg-blue-600 rounded-lg "
                         >
                           Save
@@ -157,7 +161,7 @@ const CardInfo = (props) => {
                           Cancel
                         </button>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 ) : (
                   <div className="cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
@@ -216,58 +220,64 @@ const CardInfo = (props) => {
 
           <div className="cardinfo_box_body w-full">
             {creatingNewTask ? (
-              <div className="cardinfo_box_list flex flex-col gap-4 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
-                <input
-                  type="text"
-                  name="title"
-                  value={newTask.title}
-                  onChange={handleNewTaskChange}
-                  className="text-xl capitalize border p-2 rounded"
-                  placeholder="Task Title"
-                />
-                <textarea
-                  name="description"
-                  value={newTask.description}
-                  onChange={handleNewTaskChange}
-                  className="text-md text-gray-500 border p-2 rounded"
-                  placeholder="Task Description"
-                />
-                <div className="flex items-center gap-10">
-                  <p className="text-md text-gray-500">Priority</p>
-                  <select
-                    name="priority"
-                    value={newTask.priority}
-                    onChange={handleNewTaskChange}
-                    className="border p-2 rounded shadow-md"
-                  >
-                    <option value="normal">Normal</option>
-                    <option value="urgent">Urgent</option>
-                  </select>
-                </div>
-                <div className="flex items-center gap-6">
-                  <p className="text-md text-gray-500">Due Date</p>
+              <div>
+                <form
+                  className="cardinfo_box_list flex flex-col gap-4 rounded-md p-2 border-2 border-gray-200 w-full shadow-md"
+                  onSubmit={() => props.addTask(props.card._id, newTask)}
+                >
                   <input
-                    type="date"
-                    name="dueDate"
-                    value={newTask.dueDate}
+                    type="text"
+                    name="title"
+                    value={newTask.title}
                     onChange={handleNewTaskChange}
-                    className="rounded-md p-1 border-2 border-gray-200 shadow-md"
+                    className="text-xl capitalize border p-2 rounded"
+                    placeholder="Task Title"
+                    required
                   />
-                </div>
-                <div className="flex justify-end gap-4">
-                  <button
-                    onClick={() => props.addTask(props.card._id, newTask)}
-                    className="bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 rounded-lg"
-                  >
-                    Add Task
-                  </button>
-                  <button
-                    onClick={toggleNewTaskForm}
-                    className="bg-gray-500 text-white hover:bg-gray-600 px-4 py-2 rounded-lg"
-                  >
-                    Cancel
-                  </button>
-                </div>
+                  <textarea
+                    name="description"
+                    value={newTask.description}
+                    onChange={handleNewTaskChange}
+                    className="text-md text-gray-500 border p-2 rounded"
+                    placeholder="Task Description"
+                  />
+                  <div className="flex items-center gap-10">
+                    <p className="text-md text-gray-500">Priority</p>
+                    <select
+                      name="priority"
+                      value={newTask.priority}
+                      onChange={handleNewTaskChange}
+                      className="border p-2 rounded shadow-md"
+                    >
+                      <option value="normal">Normal</option>
+                      <option value="urgent">Urgent</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-6">
+                    <p className="text-md text-gray-500">Due Date</p>
+                    <input
+                      type="date"
+                      name="dueDate"
+                      value={newTask.dueDate}
+                      onChange={handleNewTaskChange}
+                      className="rounded-md p-1 border-2 border-gray-200 shadow-md"
+                    />
+                  </div>
+                  <div className="flex justify-end gap-4">
+                    <button
+                      type="submit"
+                      className="bg-blue-500 text-white px-4 py-2 hover:bg-blue-600 rounded-lg"
+                    >
+                      Add Task
+                    </button>
+                    <button
+                      onClick={toggleNewTaskForm}
+                      className="bg-gray-500 text-white hover:bg-gray-600 px-4 py-2 rounded-lg"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </form>
               </div>
             ) : (
               <div>

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
+import { backendBaseURL, localBaseURL } from "../api";
 import { Link, useNavigate } from "react-router-dom";
-
 import LoadingAnimation from "./LoadingAnimation";
 
 const Signup = () => {
@@ -17,7 +18,7 @@ const Signup = () => {
     setLoading(true);
     setMessage("");
     try {
-      const response = await axios.post("http://localhost:8080/api/register", {
+      const response = await axios.post(`${backendBaseURL}/api/register`, {
         name,
         email,
         password,

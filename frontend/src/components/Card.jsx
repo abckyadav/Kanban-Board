@@ -1,6 +1,5 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
-import Chip from "./Chip";
 import {
   ClockIcon,
   DocumentCheckIcon,
@@ -37,14 +36,16 @@ const Card = ({
   return (
     <>
       {showModal && (
-        <CardInfo
-          card={card}
-          onClose={() => setShowModal(false)}
-          addTask={addTask}
-          updateList={updateList}
-          updateTask={updateTask}
-          deleteTask={deleteTask}
-        />
+        <div onClick={(e) => e.stopPropagation()}>
+          <CardInfo
+            card={card}
+            onClose={() => setShowModal(false)}
+            addTask={addTask}
+            updateList={updateList}
+            updateTask={updateTask}
+            deleteTask={deleteTask}
+          />
+        </div>
       )}
 
       <div
@@ -54,7 +55,7 @@ const Card = ({
         onClick={() => setShowModal(true)}
         className="p-2 py-4 rounded-md flex flex-col gap-2 bg-white group hover:cursor-pointer"
       >
-        <div className="flex gap-2 items-center ">
+        <div className="flex gap-2 items-center justify-between">
           <div className="font-bold">{card?.name}</div>
           <div className="relative" onClick={handleDropdownClick}>
             <EllipsisHorizontalIcon className="w-6 h-6 hover:cursor-pointer  opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -77,7 +78,7 @@ const Card = ({
         <div className="flex justify-between items-center text-sm">
           <div className="flex justify-between items-center gap-1">
             <ClockIcon className="w-4 h-4" />
-            <p>{formatDate(card?.createdAt)}</p>
+            <p>{formatDate(card?.updatedAt || card?.createdAt)}</p>
           </div>
           <p className="flex justify-between items-center gap-1">
             <DocumentCheckIcon className="w-4 h-4" /> {card?.tasks?.length}

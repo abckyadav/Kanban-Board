@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import Board from "./Board";
 import Editable from "./Editable";
 import axios from "axios";
+// eslint-disable-next-line no-unused-vars
+import { backendBaseURL, localBaseURL } from "../api";
 import LoadingAnimation from "./LoadingAnimation";
 
 const Dashboard = () => {
@@ -17,7 +19,7 @@ const Dashboard = () => {
   const getBoards = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:8080/api/", {
+      const res = await axios.get(`${backendBaseURL}/api/`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -37,7 +39,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:8080/api/",
+        `${backendBaseURL}/api/`,
         { name },
         {
           headers: {
@@ -59,7 +61,7 @@ const Dashboard = () => {
   const deleteBoard = async (id) => {
     try {
       setLoading(true);
-      const res = await axios.delete(`http://localhost:8080/api/${id}`, {
+      const res = await axios.delete(`${backendBaseURL}/api/${id}`, {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -80,7 +82,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `http://localhost:8080/api/${boardId}/lists`,
+        `${backendBaseURL}/api/${boardId}/lists`,
         { name },
         {
           headers: {
@@ -103,7 +105,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.put(
-        `http://localhost:8080/api/${listId}/lists`,
+        `${backendBaseURL}/api/${listId}/lists`,
         { name }, // Data to be sent in the body of the request
         {
           headers: {
@@ -124,15 +126,12 @@ const Dashboard = () => {
   const deleteList = async (listId) => {
     try {
       setLoading(true);
-      const res = await axios.delete(
-        `http://localhost:8080/api/${listId}/lists`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.delete(`${backendBaseURL}/api/${listId}/lists`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       getBoards();
       setLoading(false);
       setMessage(res?.message);
@@ -146,15 +145,12 @@ const Dashboard = () => {
     console.log("taskId:", taskId);
     try {
       setLoading(true);
-      const res = await axios.delete(
-        `http://localhost:8080/api/${taskId}/tasks`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const res = await axios.delete(`${backendBaseURL}/api/${taskId}/tasks`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       getBoards();
       setLoading(false);
       setMessage(res?.message);
@@ -169,7 +165,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.put(
-        `http://localhost:8080/api/${taskId}/tasks`,
+        `${backendBaseURL}/api/${taskId}/tasks`,
         updatedTask,
         {
           headers: {
@@ -194,7 +190,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `http://localhost:8080/api/${listId}/tasks`,
+        `${backendBaseURL}/api/${listId}/tasks`,
         task,
         {
           headers: {
@@ -229,7 +225,7 @@ const Dashboard = () => {
     try {
       setLoading(true);
       const res = await axios.post(
-        `http://localhost:8080/api/cards/move`,
+        `${backendBaseURL}/api/cards/move`,
         {
           cardId,
           sourceBoardId,
@@ -350,12 +346,14 @@ const Dashboard = () => {
                   />
                 );
               })}
-            <div className="w-full">
-              <Editable
-                text="Add Board"
-                placeholder="Enter Board Title"
-                onSubmit={(value) => addBoard(value)}
-              />
+            <div className="w-full flex justify-center ">
+              <div className="w-1/2">
+                <Editable
+                  text="Add Board"
+                  placeholder="Enter Board Title"
+                  onSubmit={(value) => addBoard(value)}
+                />
+              </div>
             </div>
           </div>
         </div>

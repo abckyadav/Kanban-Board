@@ -1,9 +1,11 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+// eslint-disable-next-line no-unused-vars
+import { backendBaseURL, localBaseURL } from "../api";
 import LoadingAnimation from "./LoadingAnimation";
 
 const Login = ({ setUser }) => {
@@ -18,7 +20,7 @@ const Login = ({ setUser }) => {
     setLoading(true);
     setError("");
     try {
-      const res = await axios.post("http://localhost:8080/api/login", {
+      const res = await axios.post(`${backendBaseURL}/api/login`, {
         email,
         password,
       });
