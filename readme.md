@@ -49,6 +49,6 @@ npm run start
 
 To run this project, you will need to add the following environment variables to your .backend env file
 
-`MONGO_URI"
+`MONGO_URI`
 
 `JWT_SECRET`
