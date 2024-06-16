@@ -2,7 +2,7 @@
 
 A simple Kanban board application that allows users to manage tasks visually using lists and cards.
 
-## Live Demo :-
+## Live Demo:-
 
 [Live Demo](https://kanban-board-kohl-three.vercel.app/) - https://kanban-board-kohl-three.vercel.app/
 
@@ -29,7 +29,7 @@ cd kanban_board
 
 3. Install dependencies and start respectively:
 
-   i) Go to client folder and install packages then start
+   i) Go to the client folder and install packages then start
 
 ```bash
 cd .. && cd client/
@@ -37,7 +37,7 @@ npm install
 npm run dev
 ```
 
-ii) Go to backend folder and install packages then start
+ii) Go to the backend folder and install packages then start
 
 ```bash
 cd backend/
@@ -55,6 +55,6 @@ To run this project, you will need to add the following environment variables to
 
 ## Note :
 
-Change backend URL the `/frontend/src/api.js` directory
+Change the backend URL to the `/frontend/src/api.js` directory
 
-`export const backendBaseURL = `http://localhost:${your_backend-port_number}`;`
+export const backendBaseURL = `http://localhost:${your_backend-port_number}`;
