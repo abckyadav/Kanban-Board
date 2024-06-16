@@ -3,7 +3,7 @@ import Task from "../models/taskModel.js";
 
 //Creating a Task
 export const createTask = async (req, res) => {
-  const { title, description, dueDate, priority } = req.body;
+  const { title, description, dueDate, priority, completed } = req.body;
 
   try {
     const list = await List.findById(req.params.listId);
@@ -17,6 +17,7 @@ export const createTask = async (req, res) => {
       description,
       dueDate,
       priority,
+      completed,
       list: req.params.listId,
     });
     console.log("newTask:", newTask);
@@ -37,7 +38,7 @@ export const createTask = async (req, res) => {
 
 // Update a task
 export const updateTask = async (req, res) => {
-  const { title, description, priority, dueDate } = req.body;
+  const { title, description, priority, dueDate, completed } = req.body;
 
   try {
     const task = await Task.findById(req.params.taskId);
@@ -46,10 +47,11 @@ export const updateTask = async (req, res) => {
       return res.status(404).json({ message: "Task not found" });
     }
 
-    task.title = title || task.title;
-    task.description = description || task.description;
-    task.priority = priority || task.priority;
-    task.dueDate = dueDate || task.dueDate;
+    if (title !== undefined) task.title = title;
+    if (description !== undefined) task.description = description;
+    if (priority !== undefined) task.priority = priority;
+    if (dueDate !== undefined) task.dueDate = dueDate;
+    if (completed !== undefined) task.completed = completed;
 
     await task.save();
 

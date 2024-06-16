@@ -33,6 +33,10 @@ const Card = ({
     return date.toLocaleDateString("en-GB", options);
   };
 
+  const completedTasksCount = card?.tasks?.filter(
+    (task) => task.completed
+  ).length;
+
   return (
     <>
       {showModal && (
@@ -81,7 +85,8 @@ const Card = ({
             <p>{formatDate(card?.updatedAt || card?.createdAt)}</p>
           </div>
           <p className="flex justify-between items-center gap-1">
-            <DocumentCheckIcon className="w-4 h-4" /> {card?.tasks?.length}
+            <DocumentCheckIcon className="w-4 h-4" /> {completedTasksCount}/
+            {card?.tasks?.length}
           </p>
         </div>
       </div>

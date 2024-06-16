@@ -62,6 +62,11 @@ const CardInfo = (props) => {
     });
   };
 
+  const handleCheckboxClick = (task) => {
+    const updatedTask = { ...task, completed: !task.completed };
+    props.updateTask(task._id, updatedTask);
+  };
+
   return (
     <Modal onClose={() => props.onClose()}>
       <div className="cardinfo p-6 bg-white flex flex-col gap-6">
@@ -164,10 +169,19 @@ const CardInfo = (props) => {
                     </form>
                   </div>
                 ) : (
-                  <div className="cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
+                  <div
+                    className={`cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 w-full shadow-md ${
+                      task.completed ? "bg-gray-200" : "bg-white"
+                    }`}
+                  >
                     <div className="cardinfo_task flex items-center justify-between gap-2">
                       <div>
-                        <input type="checkbox" className="w-4 h-4" />
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4"
+                          checked={task.completed}
+                          onChange={() => handleCheckboxClick(task)}
+                        />
                       </div>
 
                       <div className="flex flex-col gap-4">
