@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/prop-types */
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-// eslint-disable-next-line no-unused-vars
-import { backendBaseURL, localBaseURL } from "../api";
+import { backendBaseURL } from "../api";
 import LoadingAnimation from "./LoadingAnimation";
 
 const Login = ({ setUser }) => {
@@ -14,6 +13,15 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // Retrieve user info from localStorage on component mount
+  useEffect(() => {
+    const savedUser = JSON.parse(localStorage.getItem("user"));
+    if (savedUser) {
+      setUser(savedUser);
+      navigate("/");
+    }
+  }, [navigate, setUser]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -27,6 +35,7 @@ const Login = ({ setUser }) => {
       console.log("res:", res);
 
       setUser(res.data.user);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("token", res.data.token);
       navigate("/");
     } catch (error) {

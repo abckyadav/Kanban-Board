@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 // eslint-disable-next-line no-unused-vars
-import { backendBaseURL, localBaseURL } from "../api";
+import { backendBaseURL } from "../api";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingAnimation from "./LoadingAnimation";
 

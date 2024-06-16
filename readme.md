@@ -52,3 +52,9 @@ To run this project, you will need to add the following environment variables to
 `MONGO_URI`
 
 `JWT_SECRET`
+
+## Note :
+
+Change backend URL the `/frontend/src/api.js` directory
+
+`export const backendBaseURL = `http://localhost:${your_backend-port_number}`;`

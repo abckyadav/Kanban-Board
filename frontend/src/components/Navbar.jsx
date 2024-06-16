@@ -15,7 +15,7 @@ const Navbar = ({ user, handleLogout }) => {
             <p>
               {" "}
               <span className="text-gray-600"> Welcome, </span>{" "}
-              <span className="text-gray-800">{user.name}</span>
+              <span className="text-gray-800 capitalize">{user.name}</span>
             </p>
           </div>
 

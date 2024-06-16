@@ -4,7 +4,7 @@ import Board from "./Board";
 import Editable from "./Editable";
 import axios from "axios";
 // eslint-disable-next-line no-unused-vars
-import { backendBaseURL, localBaseURL } from "../api";
+import { backendBaseURL } from "../api";
 import LoadingAnimation from "./LoadingAnimation";
 
 const Dashboard = () => {
