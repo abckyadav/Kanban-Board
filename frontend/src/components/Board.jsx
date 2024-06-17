@@ -25,7 +25,7 @@ const Board = ({ board }) => {
       <div
         onDragOver={handleDragOver}
         onDrop={() => handleDragEnter(null, board._id)}
-        className="min-w-[25%] max-h-full flex flex-col gap-4"
+        className="min-w-[25%] max-h-[82vh] flex flex-col gap-4"
       >
         <div className="flex justify-between items-center">
           <p className="flex-1 font-bold">
@@ -49,8 +49,7 @@ const Board = ({ board }) => {
             )}
           </div>
         </div>
-        <div className=" bg-pink-100 flex flex-1 flex-col gap-2 p-2 overflow-y-auto ">
-          {/* min-h-[80vh] */}
+        <div className=" bg-pink-100 flex flex-1 flex-col gap-2 p-2 py-4 overflow-y-auto ">
           {board.lists &&
             board.lists.map((card) => {
               return <Card key={card._id} card={card} boardId={board._id} />;
