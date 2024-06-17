@@ -20,7 +20,6 @@ export const createTask = async (req, res) => {
       completed,
       list: req.params.listId,
     });
-    console.log("newTask:", newTask);
     await newTask.save();
 
     list.tasks.push(newTask);
@@ -28,7 +27,7 @@ export const createTask = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "Task created successfully", task: newTask });
+      .json({ message: "Task added successfully", task: newTask });
   } catch (error) {
     return res
       .status(500)

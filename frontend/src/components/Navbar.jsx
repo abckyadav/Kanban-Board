@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
-const Navbar = ({ user, handleLogout }) => {
+const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const { user, handleLogout } = useContext(AppContext);
 
   return (
     <nav className="h-16 flex items-center shadow px-6 bg-pink-100">
@@ -11,11 +13,11 @@ const Navbar = ({ user, handleLogout }) => {
           <div className="">
             <p className="text-3xl ">Kanban Board</p>
           </div>
-          <div>
+          <div className="text-2xl">
             <p>
               {" "}
               <span className="text-gray-600"> Welcome, </span>{" "}
-              <span className="text-gray-800 capitalize">{user.name}</span>
+              <span className="text-gray-600 capitalize">{user.name}</span>
             </p>
           </div>
 
@@ -29,7 +31,7 @@ const Navbar = ({ user, handleLogout }) => {
               .join("")}
           </div>
           {showDropdown && (
-            <div className="absolute right-4 top-12 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
+            <div className="absolute right-4 top-12 z-40 mt-2 w-48 bg-white shadow-lg rounded-lg py-2">
               <button
                 onClick={() => {
                   handleLogout();

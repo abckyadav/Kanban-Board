@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext } from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -10,20 +10,17 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Dashboard from "./components/Dashboard";
+import { AppContext } from "./context/AppContext";
+import Snackbar from "./components/Snackbar";
 
 function App() {
-  const [user, setUser] = useState(null);
-
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-  };
+  const { user } = useContext(AppContext);
 
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
-        <Navbar user={user} handleLogout={handleLogout} />
+        <Snackbar />
+        <Navbar />
         <Routes>
           <Route
             path="/"
@@ -31,7 +28,7 @@ function App() {
               user ? <Dashboard user={user} /> : <Navigate to="/login" />
             }
           />
-          <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

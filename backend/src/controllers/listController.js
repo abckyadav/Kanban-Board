@@ -25,7 +25,7 @@ export const createList = async (req, res) => {
 
     return res
       .status(201)
-      .json({ message: "List created successfully", list: newList });
+      .json({ message: "List added successfully", list: newList });
   } catch (error) {
     return res
       .status(500)

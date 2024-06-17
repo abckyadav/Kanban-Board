@@ -3,20 +3,11 @@ import Card from "./Card";
 import { EllipsisHorizontalIcon } from "@heroicons/react/24/solid";
 import Editable from "./Editable";
 import Dropdown from "./Dropdown";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
 
-const Board = ({
-  board,
-  deleteBoard,
-  addList,
-  addTask,
-  updateList,
-  updateTask,
-  deleteTask,
-  deleteList,
-  handleDragEnter,
-  handleDragEnd,
-}) => {
+const Board = ({ board }) => {
+  const { handleDragEnter, deleteBoard, addList } = useContext(AppContext);
   const [showDropDown, setShowDropdown] = useState(false);
 
   const handleDragOver = (e) => {
@@ -62,25 +53,12 @@ const Board = ({
           {/* min-h-[80vh] */}
           {board.lists &&
             board.lists.map((card) => {
-              return (
-                <Card
-                  key={card._id}
-                  card={card}
-                  boardId={board._id}
-                  addTask={addTask}
-                  updateList={updateList}
-                  updateTask={updateTask}
-                  deleteTask={deleteTask}
-                  deleteList={deleteList}
-                  handleDragEnd={handleDragEnd}
-                  handleDragEnter={handleDragEnter}
-                />
-              );
+              return <Card key={card._id} card={card} boardId={board._id} />;
             })}
           <Editable
             displayClass=""
-            text="Add Card"
-            placeholder="Enter Card Title"
+            text="Add List"
+            placeholder="Enter List Title"
             onSubmit={(value) => addList(board._id, value)}
           />
         </div>

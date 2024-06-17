@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   ClockIcon,
   DocumentCheckIcon,
@@ -7,20 +7,21 @@ import {
 } from "@heroicons/react/24/outline";
 import Dropdown from "./Dropdown";
 import CardInfo from "./CardInfo";
+import { AppContext } from "../context/AppContext";
 
-const Card = ({
-  boardId,
-  card,
-  addTask,
-  updateList,
-  updateTask,
-  deleteTask,
-  deleteList,
-  handleDragEnd,
-  handleDragEnter,
-}) => {
+const Card = ({ boardId, card }) => {
+  const {
+    updateTask,
+    deleteList,
+    handleDragEnter,
+    handleDragEnd,
+    showModal,
+    setShowModal,
+    selectedCardId,
+    setSelectedCardId,
+  } = useContext(AppContext);
   const [showDropDown, setShowDropdown] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   const handleDropdownClick = (event) => {
     event.stopPropagation(); // Prevent the click event from propagating to the document
@@ -34,20 +35,20 @@ const Card = ({
   };
 
   const completedTasksCount = card?.tasks?.filter(
-    (task) => task.completed
+    (task) => task?.completed
   ).length;
 
   return (
     <>
-      {showModal && (
+      {showModal && selectedCardId === card._id && (
         <div onClick={(e) => e.stopPropagation()}>
           <CardInfo
             card={card}
-            onClose={() => setShowModal(false)}
-            addTask={addTask}
-            updateList={updateList}
+            onClose={() => {
+              setShowModal(false);
+              setSelectedCardId(null);
+            }}
             updateTask={updateTask}
-            deleteTask={deleteTask}
           />
         </div>
       )}
@@ -56,7 +57,10 @@ const Card = ({
         draggable
         onDragEnd={() => handleDragEnd(card?._id, boardId)}
         onDragEnter={() => handleDragEnter(card?._id, boardId)}
-        onClick={() => setShowModal(true)}
+        onClick={() => {
+          setShowModal(true);
+          setSelectedCardId(card?._id);
+        }}
         className="p-2 py-4 rounded-md flex flex-col gap-2 bg-white group hover:cursor-pointer"
       >
         <div className="flex gap-2 items-center justify-between">
@@ -71,7 +75,7 @@ const Card = ({
                   onClick={() => deleteList(card?._id)}
                 >
                   <p className="text-gray-500 hover:text-red-500">
-                    Delete Card
+                    Delete List
                   </p>
                 </div>
               </Dropdown>

@@ -3,18 +3,22 @@ import {
   DocumentTextIcon,
   PencilSquareIcon,
   TrashIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Modal from "./Modal";
 import Editable from "./Editable";
 import { DocumentCheckIcon } from "@heroicons/react/24/outline";
 import Chip from "./Chip";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AppContext } from "../context/AppContext";
 
 const CardInfo = (props) => {
   const { tasks } = props.card;
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editedTask, setEditedTask] = useState({});
   const [creatingNewTask, setCreatingNewTask] = useState(false);
+  const { updateList, addTask, updateTask, deleteTask } =
+    useContext(AppContext);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -31,17 +35,17 @@ const CardInfo = (props) => {
     dueDate: formatDate(new Date()), // Initialize with today's date
   });
   const handleEditClick = (task) => {
-    setEditingTaskId(task._id);
+    setEditingTaskId(task?._id);
     setEditedTask(task);
   };
 
   const handleSaveClick = (taskId) => {
-    props.updateTask(taskId, editedTask);
+    updateTask(taskId, editedTask);
     setEditingTaskId(null);
   };
 
   const handleDeleteClick = (taskId) => {
-    props.deleteTask(taskId);
+    deleteTask(taskId);
   };
 
   const toggleNewTaskForm = () => {
@@ -62,25 +66,46 @@ const CardInfo = (props) => {
     });
   };
 
-  const handleCheckboxClick = (task) => {
-    const updatedTask = { ...task, completed: !task.completed };
-    props.updateTask(task._id, updatedTask);
+  const handleCheckboxClick = (task, event) => {
+    event.stopPropagation();
+    const updatedTask = { ...task, completed: !task?.completed };
+    updateTask(task._id, updatedTask);
+  };
+
+  const handleNewTaskSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    addTask(props?.card?._id, newTask);
+    setCreatingNewTask(false);
+    setNewTask({
+      title: "",
+      description: "",
+      priority: "normal",
+      dueDate: formatDate(new Date()),
+    });
   };
 
   return (
     <Modal onClose={() => props.onClose()}>
       <div className="cardinfo p-6 bg-white flex flex-col gap-6">
         <div className="cardinfo_box flex flex-col gap-4">
-          <div className="cardinfo_box_title font-bold text-xl text-gray-700 gap-4 flex items-center">
-            <DocumentTextIcon className="w-6 h-6" />
-            {props.card.name}
+          <div className="cardinfo_box_title font-bold text-xl text-gray-700 gap-4 flex items-center justify-between">
+            <div className="flex gap-4">
+              <DocumentTextIcon className="w-6 h-6" />
+              <p>{props?.card?.name}</p>
+            </div>
+            <div>
+              <XMarkIcon
+                className="h-4 w-4 hover:cursor-pointer hover:scale-150 duration-300 hover:text-red-600"
+                onClick={() => props.onClose()}
+              />
+            </div>
           </div>
           <div className="cardinfo_box_body w-1/2">
             <Editable
               text="Edit Title"
-              value={props.card.name}
+              value={props?.card?.name}
               buttonText="Update"
-              onSubmit={(value) => props.updateList(props.card._id, value)}
+              onSubmit={(value) => updateList(props?.card?._id, value)}
             />
           </div>
         </div>
@@ -92,13 +117,13 @@ const CardInfo = (props) => {
           </div>
 
           {tasks &&
-            tasks.map((task) => (
-              <div key={task._id}>
-                {editingTaskId === task._id ? (
+            tasks?.map((task) => (
+              <div key={task?._id}>
+                {editingTaskId === task?._id ? (
                   <div className="cardinfo_box_list flex flex-col gap-2 rounded-md p-2 border-2 border-gray-200 w-full shadow-md">
                     <form
                       className="flex flex-col gap-4"
-                      onSubmit={() => handleSaveClick(task._id)}
+                      onSubmit={() => handleSaveClick(task?._id)}
                     >
                       <input
                         required
@@ -110,7 +135,7 @@ const CardInfo = (props) => {
                             title: e.target.value,
                           })
                         }
-                        className="text-xl capitalize border p-2 rounded"
+                        className="text-md border p-2 rounded"
                       />
                       <textarea
                         value={editedTask.description}
@@ -178,9 +203,9 @@ const CardInfo = (props) => {
                       <div>
                         <input
                           type="checkbox"
-                          className="w-4 h-4"
+                          className="w-4 h-4 hover:cursor-pointer"
                           checked={task.completed}
-                          onChange={() => handleCheckboxClick(task)}
+                          onChange={(event) => handleCheckboxClick(task, event)}
                         />
                       </div>
 
@@ -188,11 +213,14 @@ const CardInfo = (props) => {
                         <div className="flex items-center justify-start gap-6">
                           <p className="text-xl capitalize">{task.title}</p>
                         </div>
-                        <div className="flex items-center justify-between gap-2">
-                          <p className="text-md text-gray-500">
-                            {task.description}
-                          </p>
-                        </div>
+
+                        {task.description && (
+                          <div className="flex items-center justify-between gap-2">
+                            <p className="text-md text-gray-500">
+                              {task.description}
+                            </p>
+                          </div>
+                        )}
 
                         <div className="flex items-center justify-between">
                           <p className="text-md text-gray-500">Priority</p>
@@ -237,14 +265,15 @@ const CardInfo = (props) => {
               <div>
                 <form
                   className="cardinfo_box_list flex flex-col gap-4 rounded-md p-2 border-2 border-gray-200 w-full shadow-md"
-                  onSubmit={() => props.addTask(props.card._id, newTask)}
+                  // onSubmit={() => addTask(props?.card?._id, newTask)}
+                  onSubmit={handleNewTaskSubmit}
                 >
                   <input
                     type="text"
                     name="title"
                     value={newTask.title}
                     onChange={handleNewTaskChange}
-                    className="text-xl capitalize border p-2 rounded"
+                    className="text-md capitalize border p-2 rounded"
                     placeholder="Task Title"
                     required
                   />
