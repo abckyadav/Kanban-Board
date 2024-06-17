@@ -25,7 +25,8 @@ const Board = ({ board }) => {
       <div
         onDragOver={handleDragOver}
         onDrop={() => handleDragEnter(null, board._id)}
-        className="min-w-[25%] max-h-[82vh] flex flex-col gap-4"
+        className="min-w-[25%] flex flex-col gap-4"
+        style={{ maxHeight: `calc(100vh - 8.1rem)` }}
       >
         <div className="flex justify-between items-center">
           <p className="flex-1 font-bold">

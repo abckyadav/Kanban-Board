@@ -15,7 +15,7 @@ const Dashboard = () => {
   return (
     <>
       {loading && <LoadingAnimation />}
-      <div className="p-6">
+      <div className="p-6 overflow-x-auto">
         {boards.length === 0 && (
           <p className="text-center mb-4 text-red-500">
             Note : You do not have any Board, Please create one
